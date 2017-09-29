@@ -1,0 +1,45 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Articles | Blog Management{% endblock %}
+
+{% block body %}
+    <h1>Articles</h1>
+
+    <a href="{{ path('admin_articles_add', { 'back': back_url }) }}">Write new article</a>
+
+    <table border="1" cellpadding="5">
+        <thead>
+            <tr>
+                <th><a href="{{ path('admin_articles', { 'page': page, 'orderBy': 'title', 'orderDir': orderBy == 'title' ? inverseOrderDirs[orderDir] : orderDirAsc }) }}">Title</a></th>
+                <th><a href="{{ path('admin_articles', { 'page': page, 'orderBy': 'publishedTimestamp', 'orderDir': orderBy == 'publishedTimestamp' ? inverseOrderDirs[orderDir] : orderDirDesc }) }}">Published timestamp</a></th>
+                <th><a href="{{ path('admin_articles', { 'page': page, 'orderBy': 'viewsCnt', 'orderDir': orderBy == 'viewsCnt' ? inverseOrderDirs[orderDir] : orderDirAsc }) }}">Views count</a></th>
+                <th><a href="{{ path('admin_articles', { 'page': page, 'orderBy': 'visible', 'orderDir': orderBy == 'visible' ? inverseOrderDirs[orderDir] : orderDirDesc }) }}">Visible</a></th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for article in articles %}
+                <tr>
+                    <td><a href="{{ path('admin_articles_edit', { 'id': article.id, 'back': back_url }) }}" title="Edit article {{ article.title }}">{{ article.title }}</a></td>
+                    <td>{{ article.getPublishedTimestampString(timestamp_format) }}</td>
+                    <td>{{ article.viewsCnt }}</td>
+                    <td>{% if article.visible %}Yes{% else %}No{% endif %}</td>
+                    <td>
+                        <a href="{{ path('admin_articles_edit', { 'id': article.id, 'back': back_url }) }}" title="Edit article {{ article.title }}">edit</a>&nbsp;
+                        <a href="{{ path('admin_article_change_visibility', { 'id': article.id, 'visible': article.visible ? 0 : 1, 'back': back_url}) }}" title="Switch visibility">{% if article.visible %}hide{% else %}make public{% endif %}</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">No articles found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if articles.haveToPaginate %}
+        <div class="navigation text-center">
+            {{ pagerfanta(articles, 'default_translated', {routeName: 'admin_articles'}) }}
+        </div>
+    {% endif %}
+{% endblock %}

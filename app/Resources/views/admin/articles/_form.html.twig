@@ -1,0 +1,9 @@
+
+{% form_theme form 'form_table_layout.html.twig' %}
+
+{{ form_errors(form) }}
+{{ form(form, {attr: attr|default({})}) }}
+
+<a href="{{ back_url }}" title="Back to articles list">&laquo; Back to articles list</a>
+
+{{ tinymce_init() }}

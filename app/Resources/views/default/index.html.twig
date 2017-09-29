@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Articles{% if page > 1 %} - Page {{ page }}{% endif %} | Blog{% endblock %}
+
+{% block body %}
+    <h1>Blog</h1>
+
+    <div class="articles-list">
+        {%  for article in articles %}
+            <div class="article-item">
+                <h2><a href="{{ path('blog_article_detail', { 'articleUrl': article.url, 'back': back_url }) }}" title="{{ article.title|e }}">{{ article.title|e }}</a></h2>
+                <span class="article-timestamp">{{ article.getPublishedTimestampString(timestamp_format)|e }}</span>
+                <span class="article-detail-link">
+                    <a href="{{ path('blog_article_detail', { 'articleUrl': article.url }) }}" title="{{ article.title|e }}">Read more...</a>
+                </span>
+            </div>
+        {% else %}
+            <p>
+                No articles found
+            </p>
+        {% endfor %}
+
+        {% if articles.haveToPaginate %}
+            <div class="navigation text-center">
+                {{ pagerfanta(articles, 'default_translated', {routeName: 'blog_index'}) }}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

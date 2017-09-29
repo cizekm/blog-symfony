@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ article.title|striptags|e }} | Blog{% endblock %}
+
+{% block body %}
+
+    <a href="{{ back_url }}" title="Back to articles list">&laquo; Back to articles list</a>
+
+    <h1>{{ article.title|e }}</h1>
+
+    <article>
+        <div class="content">
+            {{ article.content|raw }}
+        </div>
+
+        {% if article.tags.count > 0 %}
+            <div class="tags">
+                Tags:
+                <ul>
+                    {% for tag in article.tags %}
+                        <li>{{ tag.title|e }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </article>
+{% endblock %}

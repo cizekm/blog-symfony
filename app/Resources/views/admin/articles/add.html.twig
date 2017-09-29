@@ -1,0 +1,12 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Write New Article | Blog Management{% endblock %}
+
+{% block body %}
+    <h1>Write New Article</h1>
+
+    {{ include('admin/articles/_form.html.twig', {
+        form: form,
+        back_url: back_url
+    }, with_context = false) }}
+{% endblock %}

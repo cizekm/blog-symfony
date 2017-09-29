@@ -1,0 +1,12 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Edit article {{ article.title|striptags }} | Blog Management{% endblock %}
+
+{% block body %}
+    <h1>Edit article {{ article.title }}</h1>
+
+    {{ include('admin/articles/_form.html.twig', {
+        form: form,
+        back_url: back_url
+    }, with_context = false) }}
+{% endblock %}
